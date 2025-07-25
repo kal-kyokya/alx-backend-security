@@ -1,3 +1,34 @@
 from django.db import models
 
-# Create your models here.
+
+class RequestLog(models.Model):
+    ip_address = models.GenericIPAddressField(
+        null=True, blank=True,
+        help_text="IP address of the client making the request."
+    )
+    timestamp = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Timestamp when the request was received."
+    )
+    path = models.CharField(
+        max_length=255,
+        help_text="The path of the requested URL."
+    )
+    method = models.CharField(
+        max_length=10,
+        help_text="HTTP method of the request (e.g., GET, POST)."
+    )
+    user_agent = models.TextField(
+        null=True,
+        blank=True,
+        help_text="User-Agent header of the request"
+    )
+
+    class Meta:
+        # Optional: Add ordering for easier Browse in admin/queries
+        ordering = ['-timestamp']
+        verbose_name = "Request Log"
+        verbose_name_plural = "Request Logs"
+
+    def __str__(self):
+        return f"{self.timestamp.isoformat()} - {self.ip_address} - {self.method} {self.path}"

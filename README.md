@@ -50,6 +50,6 @@ After completing this lesson, I should be able to:
 - **Bias Awareness**: Avoid blanket blocking of regions; use fine-grained logic.
 - **Retention Policies**: Implement auto-deletion of logs after a safe period.
 
---
+---
 
 Effective IP tracking in Django balances performance, security, and ethics. With the right tools and approach, developers can create scalable systems that protect users and enhance visibility, all while maintaining compliance and trust.

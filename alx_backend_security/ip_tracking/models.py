@@ -32,3 +32,25 @@ class RequestLog(models.Model):
 
     def __str__(self):
         return f"{self.timestamp.isoformat()} - {self.ip_address} - {self.method} {self.path}"
+
+
+class BlockedIP():
+    ip_address = models.GenericIPAddressField(
+        unique=True,
+        help_text="IP address to block from accessing the application."
+    )
+    reason = models.TextField(
+        blank=True,
+        help_text="Optional reason for blocking this IP."
+    )
+    blocked_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Timestamp when this IP was blocked."
+    )
+
+    class Meta:
+        verbose_name = "Blocked IP"
+        verbose_name_plural = "Blocked IPs"
+
+    def __str__(self):
+        return self.ip_address

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ip_tracking',
     'ipgeolocation',
+    'ratelimit',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # OPTIONAL: Configure django-ipgeolocation's cache timeout
 # IPGEOLOCATION_CACHE_TIMEOUT = 60 * 60 * 24 # Default is 24 hours
+
+# --- Django-Ratelimit Configuration ---
+RATELIMIT_ENABLE = True # Enable or disable ratelimiting globally
+RATELIMIT_USE_CACHE = 'default' # Use Django's default cache backend (Redis, as configure earlier)
+
+# Optional: Custom view for 429 Too Many Requests response (for better user experience)
+# This needs creation of a template or a view to have a custom HTML page.
+# For API-only, the default JSON response is often fine.
+# RATELIMIT_VIEW = 'myapp.views.custom_rate_limit_exceeded_view'
+
+# One can also define custom rate limit groups for 'many view with the same limits'
+# RATELIMIT_RATE_LIMITS = {
+#     'login_rate': '10/m',
+#     'anonymous_api_rate': '5/m',
+# }
+# This is less common than directly using the decorator for specific views
+
+# -- End Django-Ratelimit Configuration ---

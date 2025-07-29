@@ -2,6 +2,7 @@
 from django.http import HttpResponseForbidden # Import HttpResponseForbidden
 from .models import RequestLog, BlockedIP # Import BlockedIP
 import logging
+from ipgeolocation import get_info as get_geolocation_info
 
 
 logger = logging.getLogger(__name__)
@@ -28,7 +29,22 @@ class IPLoggingMiddleware:
             return HttpResponseForbidden("Access Denied: Your IP address has been blocked.")
         # --- End IP Blacklisting Logic ---
 
-        # Log the request (from previous task)
+        # --- Geolocation Logic (New for Task 2) ---
+        country = None
+        city = None
+        if ip_address:
+            try:
+                # get_location_info handles caching internally for 24 hours by default
+                geo_info = get_geolocation_info(ip_address)
+                country = geo_info.get('country_name')
+                city = geo_info.get('city')
+                logger.debug(f"Geolocation for {ip_address}: Country={country}, City={city}")
+            except Exception as err:
+                # Handle cases where geolocation fails (e.g., local IP, invalid IP, service down)
+                logger.error(f"Could not get geolocation for IP {ip_address}: {err}")
+        # End Geolocation Logic
+
+        # Log the request
         path = request.path
         method = request.method
         user_agent = request.META.get('HTTP_USER_AGENT', '')
@@ -38,7 +54,9 @@ class IPLoggingMiddleware:
                 ip_address=ip_address,
                 path=path,
                 method=method,
-                user_agent=user_agent
+                user_agent=user_agent,
+                country=country,
+                city=city
             )
             logger.info(f"Logged request: {ip_address} - {method} {path}")
         except Exception as e:

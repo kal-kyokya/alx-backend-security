@@ -3,7 +3,9 @@ from django.http import HttpResponseForbidden # Import HttpResponseForbidden
 from .models import RequestLog, BlockedIP # Import BlockedIP
 import logging
 
+
 logger = logging.getLogger(__name__)
+
 
 class IPLoggingMiddleware:
     def __init__(self, get_response):

@@ -54,25 +54,3 @@ class BlockedIP():
 
     def __str__(self):
         return self.ip_address
-
-
-class BlockedIP(models.Model):
-    ip_address = models.GenericIPAddressField(
-        unique=True,
-        help_text="IP address to block from accessing the application."
-    )
-    reason = models.TextField(
-        blank=True,
-        help_text="Explanation for blocking this IP."
-    )
-    blocked_at = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Timestamp when this IP was blocked."
-    )
-
-    class Meta:
-        verbose_name = "Blocked IP"
-        verbose_name_plural = "Blocked IPs"
-
-    def __str__(self):
-        return self.ip_address

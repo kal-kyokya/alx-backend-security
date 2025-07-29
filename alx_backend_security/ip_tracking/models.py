@@ -25,11 +25,13 @@ class RequestLog(models.Model):
     )
     country = models.CharField(
         max_length=56,
-        help_text="Country from which the request is made"
+        null=True, blank=True,
+        help_text="Country derived from IP geolocation"
     )
     city = models.CharField(
         max_length=168,
-        help_text="The city from which the request is made"
+        null=True, blank=True,
+        help_text="City derived from IP geolocation"
     )
 
     class Meta:

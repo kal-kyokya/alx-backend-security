@@ -23,6 +23,14 @@ class RequestLog(models.Model):
         blank=True,
         help_text="User-Agent header of the request"
     )
+    country = models.CharField(
+        max_length=56,
+        help_text="Country from which the request is made"
+    )
+    city = models.CharField(
+        max_length=168,
+        help_text="The city from which the request is made"
+    )
 
     class Meta:
         # Optional: Add ordering for easier Browse in admin/queries
